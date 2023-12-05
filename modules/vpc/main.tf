@@ -38,7 +38,7 @@ resource "aws_subnet" "db" {
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
-  tags = merge(var.tags, { Name = "public" })
+  tags   = merge(var.tags, { Name = "public" })
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -48,17 +48,32 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table" "web" {
   vpc_id = aws_vpc.main.id
-  tags = merge(var.tags, { Name = "web" })
+  tags   = merge(var.tags, { Name = "web" })
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
 }
 
 resource "aws_route_table" "app" {
   vpc_id = aws_vpc.main.id
-  tags = merge(var.tags, { Name = "app" })
+  tags   = merge(var.tags, { Name = "app" })
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
 }
 
 resource "aws_route_table" "db" {
   vpc_id = aws_vpc.main.id
-  tags = merge(var.tags, { Name = "db" })
+  tags   = merge(var.tags, { Name = "db" })
+
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
 }
 
 resource "aws_route_table_association" "public" {
@@ -90,4 +105,12 @@ resource "aws_internet_gateway" "igw" {
   tags   = merge(var.tags, { Name = "igw" })
 }
 
+resource "aws_eip" "ngw" {
+  domain = "vpc"
+}
+
+resource "aws_nat_gateway" "ngw" {
+  allocation_id = aws_eip.ngw.id
+  subnet_id     = aws_subnet.public.*.id[0]
+}
 
