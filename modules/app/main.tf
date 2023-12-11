@@ -65,6 +65,13 @@ resource "aws_autoscaling_group" "main" {
 
 }
 
+resource "aws_lb_target_group" "main" {
+  name     = "${var.env}-${var.component}"
+  port     = var.app_port
+  protocol = "HTTP"
+  vpc_id   = var.vpc_id
+}
+
 
 resource "aws_iam_role" "main" {
   name = "${var.env}-${var.component}"
@@ -114,16 +121,16 @@ resource "aws_iam_role" "main" {
           "Resource" : "*"
         },
         {
-          "Sid": "S3UploadForPrometheusAlerts",
-          "Effect": "Allow",
-          "Action": [
+          "Sid" : "S3UploadForPrometheusAlerts",
+          "Effect" : "Allow",
+          "Action" : [
             "s3:GetObject",
             "s3:ListBucket",
             "s3:PutObject",
             "s3:DeleteObjectVersion",
             "s3:DeleteObject"
           ],
-          "Resource": [
+          "Resource" : [
             "arn:aws:s3:::d76-prometheus-alert-rules/*",
             "arn:aws:s3:::d76-prometheus-alert-rules"
           ]
