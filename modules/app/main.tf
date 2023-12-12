@@ -79,6 +79,7 @@ resource "aws_lb_target_group" "main" {
     interval            = 5
     matcher             = 200
     path                = "/health"
+    timeout             = 2
   }
 }
 
