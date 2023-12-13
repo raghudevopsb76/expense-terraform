@@ -23,6 +23,7 @@ resource "aws_security_group" "main" {
 }
 
 resource "aws_security_group_rule" "https" {
+  count             = var.enable_https ? 1 : 0
   from_port         = 443
   protocol          = "tcp"
   security_group_id = aws_security_group.main.id
