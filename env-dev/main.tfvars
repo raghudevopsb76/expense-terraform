@@ -38,18 +38,18 @@ bastion_cidrs = ["172.31.37.78/32"]
 
 
 public_alb = {
-  internal  = false
-  lb_port   = 80
-  type      = "public"
-  component = "frontend"
+  internal     = false
+  lb_port      = 80
+  type         = "public"
+  component    = "frontend"
   enable_https = true
 }
 
 backend_alb = {
-  internal  = true
-  lb_port   = 80
-  type      = "backend"
-  component = "backend"
+  internal     = true
+  lb_port      = 80
+  type         = "backend"
+  component    = "backend"
   enable_https = false
 }
 
