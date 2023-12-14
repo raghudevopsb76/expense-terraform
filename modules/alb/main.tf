@@ -147,6 +147,7 @@ resource "aws_wafv2_web_acl" "main" {
 }
 
 resource "aws_wafv2_web_acl_association" "main" {
+  count        = var.enable_https ? 1 : 0
   resource_arn = aws_lb.main.arn
   web_acl_arn  = aws_wafv2_web_acl.main[0].arn
 }
