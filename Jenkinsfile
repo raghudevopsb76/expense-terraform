@@ -14,7 +14,7 @@ pipeline {
     stage('Apply') {
       steps {
         sh 'terraform init -backend-config=env-prod/state.tfvars'
-        sh 'terraform apply -auto-approve -var-file=env-prod/main.tfvars'
+        sh 'terraform destroy -auto-approve -var-file=env-prod/main.tfvars'
       }
 
     }
