@@ -20,15 +20,21 @@ pipeline {
 
         stage('DEV Env') {
           steps {
-            sh 'terraform init -backend-config=env-dev/state.tfvars'
-            sh 'terraform ${ACTION} -auto-approve -var-file=env-dev/main.tfvars'
+            dir('DEV') {
+              git branch: 'main', url: 'https://github.com/raghudevopsb76/expense-terraform'
+              sh 'terraform init -backend-config=env-dev/state.tfvars'
+              sh 'terraform ${ACTION} -auto-approve -var-file=env-dev/main.tfvars'
+            }
           }
         }
 
         stage('PROD Env') {
           steps {
-            sh 'terraform init -backend-config=env-prod/state.tfvars'
-            sh 'terraform ${ACTION} -auto-approve -var-file=env-prod/main.tfvars'
+            dir('PROD') {
+              git branch: 'main', url: 'https://github.com/raghudevopsb76/expense-terraform'
+              sh 'terraform init -backend-config=env-prod/state.tfvars'
+              sh 'terraform ${ACTION} -auto-approve -var-file=env-prod/main.tfvars'
+            }
           }
         }
 
