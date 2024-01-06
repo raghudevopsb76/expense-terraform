@@ -22,4 +22,5 @@ variable "backend_alb" {}
 variable "route53_zone_id" {}
 variable "kms" {}
 variable "certificate_arn" {}
+variable "prometheus_cidrs" {}
 

@@ -29,34 +29,36 @@ module "rds" {
 }
 
 module "backend" {
-  depends_on     = [module.rds]
-  source         = "./modules/app"
-  app_port       = var.backend["app_port"]
-  component      = "backend"
-  env            = var.env
-  instance_count = var.backend["instance_count"]
-  instance_type  = var.backend["instance_type"]
-  sg_cidrs       = var.app_subnets
-  subnets        = module.vpc.app_subnets
-  tags           = var.tags
-  vpc_id         = module.vpc.vpc_id
-  bastion_cidrs  = var.bastion_cidrs
-  kms            = var.kms
+  depends_on       = [module.rds]
+  source           = "./modules/app"
+  app_port         = var.backend["app_port"]
+  component        = "backend"
+  env              = var.env
+  instance_count   = var.backend["instance_count"]
+  instance_type    = var.backend["instance_type"]
+  sg_cidrs         = var.app_subnets
+  subnets          = module.vpc.app_subnets
+  tags             = var.tags
+  vpc_id           = module.vpc.vpc_id
+  bastion_cidrs    = var.bastion_cidrs
+  kms              = var.kms
+  prometheus_cidrs = var.prometheus_cidrs
 }
 
 module "frontend" {
-  source         = "./modules/app"
-  app_port       = var.frontend["app_port"]
-  component      = "frontend"
-  env            = var.env
-  instance_count = var.frontend["instance_count"]
-  instance_type  = var.frontend["instance_type"]
-  sg_cidrs       = var.public_subnets
-  subnets        = module.vpc.web_subnets
-  tags           = var.tags
-  vpc_id         = module.vpc.vpc_id
-  bastion_cidrs  = var.bastion_cidrs
-  kms            = var.kms
+  source           = "./modules/app"
+  app_port         = var.frontend["app_port"]
+  component        = "frontend"
+  env              = var.env
+  instance_count   = var.frontend["instance_count"]
+  instance_type    = var.frontend["instance_type"]
+  sg_cidrs         = var.public_subnets
+  subnets          = module.vpc.web_subnets
+  tags             = var.tags
+  vpc_id           = module.vpc.vpc_id
+  bastion_cidrs    = var.bastion_cidrs
+  kms              = var.kms
+  prometheus_cidrs = var.prometheus_cidrs
 }
 
 module "public-alb" {

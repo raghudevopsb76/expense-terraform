@@ -34,7 +34,8 @@ frontend = {
   instance_type  = "t3.small"
 }
 
-bastion_cidrs = ["172.31.37.78/32"]
+bastion_cidrs    = ["172.31.37.78/32"]
+prometheus_cidrs = ["172.31.41.244/32"]
 
 
 public_alb = {
@@ -43,9 +44,9 @@ public_alb = {
   type         = "public"
   component    = "frontend"
   enable_https = true
-  ingress      = {
-    http = { port = 80}
-    https = { port = 443}
+  ingress = {
+    http  = { port = 80 }
+    https = { port = 443 }
   }
 }
 
@@ -55,8 +56,8 @@ backend_alb = {
   type         = "backend"
   component    = "backend"
   enable_https = false
-  ingress      = {
-    http = { port = 80}
+  ingress = {
+    http = { port = 80 }
   }
 }
 

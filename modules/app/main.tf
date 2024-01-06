@@ -19,6 +19,14 @@ resource "aws_security_group" "main" {
     cidr_blocks = var.bastion_cidrs
   }
 
+  ingress {
+    description = "PROMETHEUS"
+    from_port   = 9100
+    to_port     = 9100
+    protocol    = "tcp"
+    cidr_blocks = var.prometheus_cidrs
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -87,10 +95,10 @@ resource "aws_autoscaling_group" "main" {
 }
 
 resource "aws_lb_target_group" "main" {
-  name     = "${var.env}-${var.component}"
-  port     = var.app_port
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
+  name                 = "${var.env}-${var.component}"
+  port                 = var.app_port
+  protocol             = "HTTP"
+  vpc_id               = var.vpc_id
   deregistration_delay = 10
 
   health_check {
